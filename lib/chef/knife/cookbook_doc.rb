@@ -5,14 +5,21 @@ module KnifeCookbookDoc
   class CookbookDoc < Chef::Knife
     deps do
       require 'chef/cookbook/metadata'
-      require 'erubis'
-      require 'knife_cookbook_doc/base_model'
       require 'knife_cookbook_doc/documenting_lwrp_base'
+      require 'knife_cookbook_doc/base_model'
       require 'knife_cookbook_doc/definitions_model'
       require 'knife_cookbook_doc/readme_model'
       require 'knife_cookbook_doc/recipe_model'
       require 'knife_cookbook_doc/resource_model'
       require 'knife_cookbook_doc/attributes_model'
+      require 'knife_cookbook_doc/formatter/default_readme_formatter'
+      require 'knife_cookbook_doc/formatter/template_readme_formatter'
+      require 'knife_cookbook_doc/formatter/default_attributes_formatter'
+      require 'knife_cookbook_doc/formatter/default_recipe_formatter'
+      require 'knife_cookbook_doc/formatter/default_definition_formatter'
+      require 'knife_cookbook_doc/formatter/default_resource_formatter'
+      require 'knife_cookbook_doc/formatter/default_requirements_formatter'
+      require 'knife_cookbook_doc/formatter/default_license_formatter'
     end
 
     banner 'knife cookbook doc DIR (options)'
@@ -44,11 +51,16 @@ module KnifeCookbookDoc
 
       cookbook_dir = File.realpath(cookbook_dir)
 
-      model = ReadmeModel.new(cookbook_dir, config[:constraints])
+      config[:readme_formatter] = DefaultReadmeFormatter.new
+      config[:attributes_formatter] = DefaultAttributesFormatter.new
+      config[:recipe_formatter] = DefaultRecipeFormatter.new
+      config[:definition_formatter] = DefaultDefinitionFormatter.new
+      config[:resource_formatter] = DefaultResourceFormatter.new
+      config[:requirements_formatter] = DefaultRequirementsFormatter.new
+      config[:license_formatter] = DefaultLicenseFormatter.new
 
-      template = File.read(config[:template_file])
-      eruby = Erubis::Eruby.new(template)
-      result = eruby.result(model.get_binding)
+      model = ReadmeModel.new(cookbook_dir, config[:constraints])
+      result = config[:readme_formatter].format(model, config)
 
       File.open("#{cookbook_dir}/#{config[:output_file]}", 'wb') do |f|
         result.each_line do |line|
