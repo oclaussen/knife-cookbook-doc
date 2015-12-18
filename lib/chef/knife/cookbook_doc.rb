@@ -4,22 +4,7 @@ require 'pathname'
 module KnifeCookbookDoc
   class CookbookDoc < Chef::Knife
     deps do
-      require 'chef/cookbook/metadata'
-      require 'knife_cookbook_doc/documenting_lwrp_base'
-      require 'knife_cookbook_doc/base_model'
-      require 'knife_cookbook_doc/definitions_model'
-      require 'knife_cookbook_doc/readme_model'
-      require 'knife_cookbook_doc/recipe_model'
-      require 'knife_cookbook_doc/resource_model'
-      require 'knife_cookbook_doc/attributes_model'
-      require 'knife_cookbook_doc/formatter/default_readme_formatter'
-      require 'knife_cookbook_doc/formatter/template_readme_formatter'
-      require 'knife_cookbook_doc/formatter/default_attributes_formatter'
-      require 'knife_cookbook_doc/formatter/default_recipe_formatter'
-      require 'knife_cookbook_doc/formatter/default_definition_formatter'
-      require 'knife_cookbook_doc/formatter/default_resource_formatter'
-      require 'knife_cookbook_doc/formatter/default_requirements_formatter'
-      require 'knife_cookbook_doc/formatter/default_license_formatter'
+      require 'knife_cookbook_doc'
     end
 
     banner 'knife cookbook doc DIR (options)'
@@ -49,25 +34,7 @@ module KnifeCookbookDoc
         exit(1)
       end
 
-      cookbook_dir = File.realpath(cookbook_dir)
-
-      config[:readme_formatter] = DefaultReadmeFormatter.new
-      config[:attributes_formatter] = DefaultAttributesFormatter.new
-      config[:recipe_formatter] = DefaultRecipeFormatter.new
-      config[:definition_formatter] = DefaultDefinitionFormatter.new
-      config[:resource_formatter] = DefaultResourceFormatter.new
-      config[:requirements_formatter] = DefaultRequirementsFormatter.new
-      config[:license_formatter] = DefaultLicenseFormatter.new
-
-      model = ReadmeModel.new(cookbook_dir, config[:constraints])
-      result = config[:readme_formatter].format(model, config)
-
-      File.open("#{cookbook_dir}/#{config[:output_file]}", 'wb') do |f|
-        result.each_line do |line|
-          f.write line.gsub(/[ \t\r\n]*$/,'')
-          f.write "\n"
-        end
-      end
+      KnifeCookbookDoc.create_doc(File.realpath(cookbook_dir), config)
     end
   end
 end
