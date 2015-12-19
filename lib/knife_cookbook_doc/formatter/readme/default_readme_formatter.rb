@@ -66,7 +66,7 @@ module KnifeCookbookDoc
 
         def format_toc(items)
           items.map do |item|
-            line = "* [#{item.name}](##{item.name.to_s.gsub(':','')})"
+            line = "* [#{item.name}](##{item.name.to_s.delete(':')})"
             line += " - #{item.short_description}" unless item.short_description.empty?
             line
           end.join "\n"

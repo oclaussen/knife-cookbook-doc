@@ -8,6 +8,7 @@ module KnifeCookbookDoc
             line += '.' unless description.nil? || description.strip.end_with?('.')
             line += " Available options: `#{choice.map(&:inspect).join('`, `')}`." unless choice.empty?
             line += " Defaults to `#{default}`."
+            line
           end.join "\n"
         end
       end

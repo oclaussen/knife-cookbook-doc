@@ -11,7 +11,7 @@ module KnifeCookbookDoc
 
           model.actions.map do |action|
             line = "- #{action}: #{model.action_description(action)}"
-            line += ' Default action.' if is_default?(action)
+            line += ' Default action.' if default?(action)
             lines << line
           end
 
@@ -24,7 +24,7 @@ module KnifeCookbookDoc
           model.default_action.is_a?(Array)
         end
 
-        def is_default?(action)
+        def default?(action)
           return false if model.default_action.is_a?(Array)
           model.default_action == action
         end

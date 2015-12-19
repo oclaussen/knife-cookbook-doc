@@ -46,7 +46,6 @@ module KnifeCookbookDoc
     license_formatter: Formatter::Readme::DefaultLicenseFormatter
   }
 
-
   def create_doc(cookbook_dir, config)
     config = DEFAULTS.merge(config)
     KnifeCookbookDoc.validate_configuration(config)
@@ -55,7 +54,7 @@ module KnifeCookbookDoc
 
     File.open("#{cookbook_dir}/#{config[:output_file]}", 'wb') do |f|
       result.each_line do |line|
-        f.write line.gsub(/[ \t\r\n]*$/,'')
+        f.write line.gsub(/[ \t\r\n]*$/, '')
         f.write "\n"
       end
     end
@@ -70,12 +69,12 @@ module KnifeCookbookDoc
     end
 
     # Use the template formatter if the user specified a template
-    if is_supplied?(config, :template_file) && !is_supplied?(config, :readme_formatter)
+    if supplied?(config, :template_file) && !supplied?(config, :readme_formatter)
       config[:readme_formatter] = Formatter::Readme::TemplateReadmeFormatter
     end
   end
 
-  def is_supplied?(config, key)
+  def supplied?(config, key)
     config[key] != DEFAULTS[key]
   end
 end

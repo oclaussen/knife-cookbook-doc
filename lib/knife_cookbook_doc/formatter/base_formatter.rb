@@ -15,7 +15,7 @@ module KnifeCookbookDoc
       end
 
       def format_other_descriptions
-        model.top_level_descriptions.keys.reject{ |k| k == 'main' }.map do |key|
+        model.top_level_descriptions.keys.reject { |k| k == 'main' }.map do |key|
           "### #{key}\n\n#{model.top_level_description(key).strip}"
         end.join "\n\n"
       end

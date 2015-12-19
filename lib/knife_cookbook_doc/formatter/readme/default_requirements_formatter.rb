@@ -3,20 +3,12 @@ module KnifeCookbookDoc
     module Readme
       class DefaultRequirementsFormatter < Formatter::BaseFormatter
         def format
-          lines = []
-          lines << '## Platform:'
-          if platforms.empty?
-            lines << '*No platforms defined*'
-          else
-            lines << platforms.join("\n")
-          end
-          lines << '## Cookbooks:'
-          if cookbooks.empty?
-            lines << '*No dependencies defined*'
-          else
-            lines << cookbooks.join("\n")
-          end
-          lines.join("\n\n")
+          [
+            '## Platform:',
+            platforms.empty? ? '*No platforms defined*' : platforms.join("\n"),
+            '## Cookbooks:',
+            cookbooks.empty? ? '*No dependencies defined*' : cookbooks.join("\n")
+          ].join("\n\n")
         end
 
         private

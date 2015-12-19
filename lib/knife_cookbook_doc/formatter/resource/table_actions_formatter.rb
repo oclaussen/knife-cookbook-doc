@@ -9,7 +9,7 @@ module KnifeCookbookDoc
           lines << '|Action|Description|Default|'
           lines << '|------|-----------|-------|'
           lines += model.actions.map do |action|
-            "|#{action}|#{model.action_description(action)}|#{is_default?(action)}|"
+            "|#{action}|#{model.action_description(action)}|#{default?(action)}|"
           end
 
           lines.join "\n"
@@ -17,7 +17,7 @@ module KnifeCookbookDoc
 
         private
 
-        def is_default?(action)
+        def default?(action)
           return false if model.default_action.is_a?(Array)
           model.default_action == action
         end
