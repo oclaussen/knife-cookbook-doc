@@ -9,8 +9,9 @@ module KnifeCookbookDoc
             attributes,
             recipes,
             resources,
+            fragments,
             license
-          ].join "\n\n"
+          ].reject(&:empty?).join "\n\n"
         end
 
         private
