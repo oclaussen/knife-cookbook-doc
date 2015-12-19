@@ -34,16 +34,16 @@ module KnifeCookbookDoc
     output_file: 'README.md',
     template_file: Pathname.new("#{File.dirname(__FILE__)}/chef/knife/README.md.erb").realpath,
 
-    readme_formatter: DefaultReadmeFormatter,
-    attributes_formatter: DefaultAttributesFormatter,
-    recipe_formatter: DefaultRecipeFormatter,
-    definition_formatter: DefaultDefinitionFormatter,
-    definition_parameters_formatter: DefaultDefinitionParametersFormatter,
-    resource_formatter: DefaultResourceFormatter,
-    resource_actions_formatter: DefaultResourceActionsFormatter,
-    resource_properties_formatter: DefaultResourcePropertiesFormatter,
-    requirements_formatter: DefaultRequirementsFormatter,
-    license_formatter: DefaultLicenseFormatter
+    readme_formatter: Formatter::Readme::DefaultReadmeFormatter,
+    attributes_formatter: Formatter::Attributes::DefaultAttributesFormatter,
+    recipe_formatter: Formatter::Recipe::DefaultRecipeFormatter,
+    definition_formatter: Formatter::Definition::DefaultDefinitionFormatter,
+    parameters_formatter: Formatter::Definition::DefaultParametersFormatter,
+    resource_formatter: Formatter::Resource::DefaultResourceFormatter,
+    actions_formatter: Formatter::Resource::DefaultActionsFormatter,
+    properties_formatter: Formatter::Resource::DefaultPropertiesFormatter,
+    requirements_formatter: Formatter::Readme::DefaultRequirementsFormatter,
+    license_formatter: Formatter::Readme::DefaultLicenseFormatter
   }
 
 
@@ -51,7 +51,7 @@ module KnifeCookbookDoc
     config = DEFAULTS.merge(config)
     KnifeCookbookDoc.validate_configuration(config)
     model = ReadmeModel.new(cookbook_dir, config[:constraints])
-    result = BaseFormatter.new(model, config).format_readme
+    result = Formatter::BaseFormatter.new(model, config).format_readme
 
     File.open("#{cookbook_dir}/#{config[:output_file]}", 'wb') do |f|
       result.each_line do |line|
@@ -71,7 +71,7 @@ module KnifeCookbookDoc
 
     # Use the template formatter if the user specified a template
     if is_supplied?(config, :template_file) && !is_supplied?(config, :readme_formatter)
-      config[:readme_formatter] = TemplateReadmeFormatter
+      config[:readme_formatter] = Formatter::Readme::TemplateReadmeFormatter
     end
   end
 
