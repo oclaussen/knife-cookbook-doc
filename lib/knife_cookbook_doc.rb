@@ -33,6 +33,7 @@ module KnifeCookbookDoc
     constraints: true,
     output_file: 'README.md',
     template_file: Pathname.new("#{File.dirname(__FILE__)}/chef/knife/README.md.erb").realpath,
+    formatters: [],
 
     readme_formatter: Formatter::Readme::DefaultReadmeFormatter,
     attributes_formatter: Formatter::Attributes::DefaultAttributesFormatter,
@@ -61,6 +62,13 @@ module KnifeCookbookDoc
   end
 
   def validate_configuration(config)
+    # Parse formatters from command line
+    config[:formatters].each do |type, value|
+      option_name = "#{type.downcase}_formatter".to_sym
+      clazz = value.split('::').reduce(Module, :const_get)
+      config[option_name] = clazz
+    end
+
     # Make sure every formatter can format
     config.each do |option, value|
       next unless /\w+_formatter/ =~ option.to_s
