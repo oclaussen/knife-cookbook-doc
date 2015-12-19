@@ -14,7 +14,10 @@ require 'knife_cookbook_doc/formatter/template_readme_formatter'
 require 'knife_cookbook_doc/formatter/default_attributes_formatter'
 require 'knife_cookbook_doc/formatter/default_recipe_formatter'
 require 'knife_cookbook_doc/formatter/default_definition_formatter'
+require 'knife_cookbook_doc/formatter/default_definition_parameters_formatter'
 require 'knife_cookbook_doc/formatter/default_resource_formatter'
+require 'knife_cookbook_doc/formatter/default_resource_actions_formatter'
+require 'knife_cookbook_doc/formatter/default_resource_properties_formatter'
 require 'knife_cookbook_doc/formatter/default_requirements_formatter'
 require 'knife_cookbook_doc/formatter/default_license_formatter'
 
@@ -31,7 +34,10 @@ module KnifeCookbookDoc
     attributes_formatter: DefaultAttributesFormatter,
     recipe_formatter: DefaultRecipeFormatter,
     definition_formatter: DefaultDefinitionFormatter,
+    definition_parameters_formatter: DefaultDefinitionParametersFormatter,
     resource_formatter: DefaultResourceFormatter,
+    resource_actions_formatter: DefaultResourceActionsFormatter,
+    resource_properties_formatter: DefaultResourcePropertiesFormatter,
     requirements_formatter: DefaultRequirementsFormatter,
     license_formatter: DefaultLicenseFormatter
   }

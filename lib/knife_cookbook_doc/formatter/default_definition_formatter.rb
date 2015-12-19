@@ -10,15 +10,7 @@ module KnifeCookbookDoc
         lines << model.top_level_description('main').strip
       end
 
-      unless model.params.empty?
-        lines << '### Parameters'
-
-        model.params.each do |param, data|
-          line = "- #{param}: #{data['descr']}."
-          line += "Defaults to: #{data['default']}" unless data['default'].nil?
-          lines << line
-        end
-      end
+      lines << format_definition_parameters
 
       model.top_level_descriptions.keys.reject{ |k| k == 'main' }.each do |key|
         lines << "### #{key}"
