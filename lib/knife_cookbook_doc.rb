@@ -13,6 +13,7 @@ require 'knife_cookbook_doc/formatter/base_formatter'
 require 'knife_cookbook_doc/formatter/attributes/default_attributes_formatter'
 require 'knife_cookbook_doc/formatter/definition/default_definition_formatter'
 require 'knife_cookbook_doc/formatter/definition/default_parameters_formatter'
+require 'knife_cookbook_doc/formatter/definition/table_parameters_formatter'
 require 'knife_cookbook_doc/formatter/readme/default_license_formatter'
 require 'knife_cookbook_doc/formatter/readme/default_readme_formatter'
 require 'knife_cookbook_doc/formatter/readme/default_requirements_formatter'
@@ -21,6 +22,8 @@ require 'knife_cookbook_doc/formatter/recipe/default_recipe_formatter'
 require 'knife_cookbook_doc/formatter/resource/default_actions_formatter'
 require 'knife_cookbook_doc/formatter/resource/default_resource_formatter'
 require 'knife_cookbook_doc/formatter/resource/default_properties_formatter'
+require 'knife_cookbook_doc/formatter/resource/table_actions_formatter'
+require 'knife_cookbook_doc/formatter/resource/table_properties_formatter'
 
 module KnifeCookbookDoc
   module_function
