@@ -13,7 +13,8 @@ module KnifeCookbookDoc
 
       desc 'Generate cookbook documentation' unless ::Rake.application.last_comment
       task(name) do
-        ::KnifeCookbookDoc.create_doc(merged_options[:cookbook_dir], options)
+        dir = options[:cookbook_dir] || ::KnifeCookbookDoc::DEFAULTS[:cookbook_dir]
+        ::KnifeCookbookDoc.create_doc(dir, options)
       end
     end
   end

@@ -49,6 +49,7 @@ module KnifeCookbookDoc
 
   def create_doc(cookbook_dir, config)
     config = DEFAULTS.merge(config)
+    KnifeCookbookDoc.validate_configuration(config)
     model = ReadmeModel.new(cookbook_dir, config[:constraints])
     result = BaseFormatter.new(model, config).format_readme
 
@@ -58,5 +59,23 @@ module KnifeCookbookDoc
         f.write "\n"
       end
     end
+  end
+
+  def validate_configuration(config)
+    # Make sure every formatter can format
+    config.each do |option, value|
+      next unless /\w+_formatter/ =~ option.to_s
+      next if value.method_defined?(:format)
+      fail "Invalid argument for option #{option}: No `format` method on #{value}."
+    end
+
+    # Use the template formatter if the user specified a template
+    if is_supplied?(config, :template_file) && !is_supplied?(config, :readme_formatter)
+      config[:readme_formatter] = TemplateReadmeFormatter
+    end
+  end
+
+  def is_supplied?(config, key)
+    config[key] != DEFAULTS[key]
   end
 end
