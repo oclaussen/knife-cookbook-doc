@@ -8,6 +8,17 @@ module KnifeCookbookDoc
       @config = config
     end
 
+    def format_main_description
+      return '' if model.top_level_description('main').empty?
+      model.top_level_description('main').strip
+    end
+
+    def format_other_descriptions
+      model.top_level_descriptions.keys.reject{ |k| k == 'main' }.map do |key|
+        "### #{key}\n\n#{model.top_level_description(key).strip}"
+      end.join "\n\n"
+    end
+
     # Make subclasses magically aware of all configured formatters.
     # Also, create a fresh formatter instance for every call to `format`.
     # This assumes that all formatters are stateless.
