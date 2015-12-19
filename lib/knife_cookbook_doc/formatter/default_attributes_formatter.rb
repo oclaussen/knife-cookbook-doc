@@ -1,6 +1,6 @@
 module KnifeCookbookDoc
-  class DefaultAttributesFormatter
-    def format(model)
+  class DefaultAttributesFormatter < BaseFormatter
+    def format
       model.attributes.map do |name, description, default, choice|
         line = "* `#{name}` - #{description}"
         line += '.' unless description.nil? || description.strip.end_with?('.')

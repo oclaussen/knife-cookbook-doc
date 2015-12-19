@@ -1,6 +1,6 @@
 module KnifeCookbookDoc
-  class DefaultLicenseFormatter
-    def format(model)
+  class DefaultLicenseFormatter < BaseFormatter
+    def format
       lines = []
       lines << "Maintainer:: #{model.maintainer} (<#{model.maintainer_email}>)"
       lines << "Source:: #{model.source_url}" unless model.source_url.empty?

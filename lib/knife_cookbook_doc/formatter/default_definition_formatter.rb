@@ -1,6 +1,6 @@
 module KnifeCookbookDoc
-  class DefaultDefinitionFormatter
-    def format(model)
+  class DefaultDefinitionFormatter < BaseFormatter
+    def format
       return '' if model.top_level_descriptions.empty?
 
       lines = []

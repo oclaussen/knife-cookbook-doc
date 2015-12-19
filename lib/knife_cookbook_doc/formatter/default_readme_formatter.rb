@@ -1,8 +1,6 @@
 module KnifeCookbookDoc
-  class DefaultReadmeFormatter
-    def format(model, config)
-      @model = model
-      @config = config
+  class DefaultReadmeFormatter < BaseFormatter
+    def format
       [
         description,
         requirements,
@@ -16,52 +14,52 @@ module KnifeCookbookDoc
     private
 
     def description
-      "# Description\n\n" + (@model.fragments['overview'] || @model.description).strip
+      "# Description\n\n" + (model.fragments['overview'] || model.description).strip
     end
 
     def requirements
-      "# Requirements\n\n" + @config[:requirements_formatter].format(@model)
+      "# Requirements\n\n" + format_requirements(model)
     end
 
     def license
-      return @model.fragments['credit'] unless @model.fragments['credit'].nil?
-      "# License and Maintainer\n\n" + @config[:license_formatter].format(@model)
+      return model.fragments['credit'] unless model.fragments['credit'].nil?
+      "# License and Maintainer\n\n" + format_license(model)
     end
 
     def attributes
-      return "# Attributes\n\n*No attributes defined" if @model.attributes.empty?
-      "# Attributes\n\n" + @config[:attributes_formatter].format(@model)
+      return "# Attributes\n\n*No attributes defined" if model.attributes.empty?
+      "# Attributes\n\n" + format_attributes(model)
     end
 
     def recipes
-      return "# Recipes\n\n*No recipes defined*" if @model.recipes.empty?
+      return "# Recipes\n\n*No recipes defined*" if model.recipes.empty?
       [
         '# Recipes',
-        format_toc(@model.recipes),
-        @model.recipes.map(&@config[:recipe_formatter].method(:format))
+        format_toc(model.recipes),
+        model.recipes.map { |r| format_recipe r }
       ].flatten.join "\n\n"
     end
 
     def definitions
-      return '' if @model.definitions.empty?
+      return '' if model.definitions.empty?
       [
         '# Definitions',
-        format_toc(@model.definitions),
-        @model.definitions.map(&@config[:definition_formatter].method(:format))
+        format_toc(model.definitions),
+        model.definitions.map { |d| format_definition d }
       ].flatten.join "\n\n"
     end
 
     def resources
-      return '' if @model.resources.empty?
+      return '' if model.resources.empty?
       [
         '# Resources',
-        format_toc(@model.resources),
-        @model.resources.map(&@config[:resource_formatter].method(:format))
+        format_toc(model.resources),
+        model.resources.map { |r| format_resource r }
       ].flatten.join "\n\n"
     end
 
     def fragments
-      @model.fragments.keys.reject { |k| k == 'overview' || k == 'credit' }.map { |key| @model.fragments[key].strip }.join "\n\n"
+      model.fragments.keys.reject { |k| k == 'overview' || k == 'credit' }.map { |key| model.fragments[key].strip }.join "\n\n"
     end
 
     def format_toc(items)

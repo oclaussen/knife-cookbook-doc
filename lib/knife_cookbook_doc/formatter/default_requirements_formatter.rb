@@ -1,8 +1,6 @@
 module KnifeCookbookDoc
-  class DefaultRequirementsFormatter
-    def format(model)
-      @model = model
-
+  class DefaultRequirementsFormatter < BaseFormatter
+    def format
       lines = []
       lines << '## Platform:'
       if platforms.empty?
@@ -22,7 +20,7 @@ module KnifeCookbookDoc
     private
 
     def platforms
-      @model.platforms.map { |platform| "* #{platform}" }
+      model.platforms.map { |platform| "* #{platform}" }
     end
 
     def cookbooks
@@ -30,19 +28,19 @@ module KnifeCookbookDoc
     end
 
     def dependencies
-      @model.dependencies.map { |dep| "* #{dep}" }
+      model.dependencies.map { |dep| "* #{dep}" }
     end
 
     def recommendations
-      @model.recommendations.map { |dep| "* #{dep} (Recommended but not required)" }
+      model.recommendations.map { |dep| "* #{dep} (Recommended but not required)" }
     end
 
     def suggestions
-      @model.suggestions.map { |dep| "* #{dep} (Suggested but not required)" }
+      model.suggestions.map { |dep| "* #{dep} (Suggested but not required)" }
     end
 
     def conflicting
-      @model.conflicting.map { |dep| "* Conflicts with #{dep}" }
+      model.conflicting.map { |dep| "* Conflicts with #{dep}" }
     end
   end
 end

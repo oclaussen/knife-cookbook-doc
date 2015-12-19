@@ -1,6 +1,6 @@
 module KnifeCookbookDoc
-  class DefaultResourceFormatter
-    def format(model)
+  class DefaultResourceFormatter < BaseFormatter
+    def format
       lines = []
       lines << "## #{model.name}"
 
