@@ -16,7 +16,9 @@ module KnifeCookbookDoc
         private
 
         def format_attribute(attribute)
-          "|#{attribute}|#{model.attribute_description(attribute)}|`#{model.attribute_default_value(attribute).inspect}`|"
+          default = model.attribute_default_value(attribute)
+          default = default.is_a?(Proc) ? 'lazy value' : default.inspect
+          "|#{attribute}|#{model.attribute_description(attribute)}|`#{default}`|"
         end
       end
     end

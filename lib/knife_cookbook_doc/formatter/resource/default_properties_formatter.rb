@@ -20,6 +20,7 @@ module KnifeCookbookDoc
 
         def format_default(attribute)
           return '' unless model.attribute_has_default_value?(attribute)
+          return 'Defaults to a lazy value' if model.attribute_default_value(attribute).is_a?(Proc)
           " Defaults to <code>#{model.attribute_default_value(attribute).inspect}</code>."
         end
       end
