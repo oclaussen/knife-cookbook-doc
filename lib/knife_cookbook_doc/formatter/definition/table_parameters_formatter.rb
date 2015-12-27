@@ -1,6 +1,6 @@
 module KnifeCookbookDoc
   module Formatter
-    module Defitinion
+    module Definition
       class TableParametersFormatter < Formatter::BaseFormatter
         def format
           return '' if model.params.empty?
